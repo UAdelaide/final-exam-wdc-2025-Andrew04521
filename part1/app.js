@@ -7,7 +7,7 @@ const PORT = 8080;
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: '', // ← your password here
+  password: '', // Replace with your MySQL password if set
   database: 'DogWalkService',
   waitForConnections: true,
   connectionLimit: 10,
@@ -19,7 +19,7 @@ async function insertTestData() {
   try {
     const conn = await pool.getConnection();
 
-    // Optional: Clear and reinsert if needed
+    // Clear and reinsert data
     await conn.query(`DELETE FROM WalkRatings`);
     await conn.query(`DELETE FROM WalkApplications`);
     await conn.query(`DELETE FROM WalkRequests`);
@@ -49,20 +49,18 @@ async function insertTestData() {
     await conn.query(`
       INSERT INTO WalkRequests (dog_id, requested_time, duration_minutes, location, status)
       VALUES
-      ((SELECT dog_id FROM Dogs WHERE name='Max'), '2025-06-10 08:00:00', 30, 'Parklands', 'open'),
-      ((SELECT dog_id FROM Dogs WHERE name='Bella'), '2025-06-10 09:30:00', 45, 'Beachside Ave', 'accepted')
+      ((SELECT dog_id FROM Dogs WHERE name='Max' LIMIT 1), '2025-06-10 08:00:00', 30, 'Parklands', 'open'),
+      ((SELECT dog_id FROM Dogs WHERE name='Bella' LIMIT 1), '2025-06-10 09:30:00', 45, 'Beachside Ave', 'accepted')
     `);
 
     conn.release();
-    console.log("✅ Test data inserted.");
+    console.log("Test data inserted.");
   } catch (err) {
-    console.error("❌ Error inserting test data:", err);
+    console.error("Error inserting test data:", err.message);
   }
 }
 
 insertTestData();
-
-// ========== ROUTES ==========
 
 // /api/dogs
 app.get('/api/dogs', async (req, res) => {
@@ -74,7 +72,7 @@ app.get('/api/dogs', async (req, res) => {
     `);
     res.json(rows);
   } catch (err) {
-    console.error(err);
+    console.error("Error in /api/dogs:", err.message);
     res.status(500).json({ error: "Failed to fetch dogs" });
   }
 });
@@ -92,7 +90,7 @@ app.get('/api/walkrequests/open', async (req, res) => {
     `);
     res.json(rows);
   } catch (err) {
-    console.error(err);
+    console.error("Error in /api/walkrequests/open:", err.message);
     res.status(500).json({ error: "Failed to fetch open walk requests" });
   }
 });
@@ -118,12 +116,12 @@ app.get('/api/walkers/summary', async (req, res) => {
     `);
     res.json(rows);
   } catch (err) {
-    console.error(err);
+    console.error("Error in /api/walkers/summary:", err.message);
     res.status(500).json({ error: "Failed to fetch walker summary" });
   }
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
