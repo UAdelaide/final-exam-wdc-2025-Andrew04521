@@ -95,9 +95,9 @@
 
            const dogRes = await fetch(`/api/dogs?owner_id=${user.user_id}`);
            myDogs.value = await dogRes.json();
-        } catch (err) {
-    console.error("Failed to load user's dogs");
-  }
+         } catch (err) {
+           console.error("Failed to load user's dogs");
+         }
 }
 
         async function loadWalks() {
