@@ -9,7 +9,6 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/public')));
 
-// Session 中间件（必须在 route 之前）
 app.use(session({
   secret: 'dog-secret',
   resave: false,
