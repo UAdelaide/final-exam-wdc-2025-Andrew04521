@@ -17,3 +17,40 @@
   </div>
 </body>
 </html>
+
+<!-- index.html -->
+<form id="loginForm" class="my-4" onsubmit="handleLogin(event)">
+  <div class="mb-3">
+    <input type="text" id="username" class="form-control" placeholder="Username" required>
+  </div>
+  <div class="mb-3">
+    <input type="password" id="password" class="form-control" placeholder="Password" required>
+  </div>
+  <button class="btn btn-primary" type="submit">Log In</button>
+</form>
+
+<script>
+  async function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+      if (result.role === "owner") {
+        window.location.href = "/owner-dashboard.html";
+      } else if (result.role === "walker") {
+        window.location.href = "/walker-dashboard.html";
+      }
+    } else {
+      alert(result.error || "Login failed");
+    }
+  }
+</script>
