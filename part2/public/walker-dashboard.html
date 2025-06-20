@@ -44,7 +44,19 @@
 
     createApp({
       setup() {
-        
+        const currentUser = ref(null);
+
+        async function getCurrentUser() {
+  try {
+    const res = await fetch('/api/users/me');
+    if (!res.ok) throw new Error('Not logged in');
+    return await res.json();
+  } catch (err) {
+    console.error('Failed to get current user:', err);
+    return null;
+  }
+}
+
         const walks = ref([]);
         const message = ref('');
         const error = ref('');
