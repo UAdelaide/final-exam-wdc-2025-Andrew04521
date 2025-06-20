@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dog of the Day</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    body {
+      background-image: url('https://images.unsplash.com/photo-1580713364206-b5f1798d3c1a');
+      background-size: cover;
+      color: yellow;
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    button {
+      background-color: lime;
+      border: 5px dashed red;
+      font-size: 2em;
+      padding: 20px;
+      margin: 40px;
+      cursor: pointer;
+    }
+
+    img {
+      width: 400px;
+      height: auto;
+      border: 10px solid fuchsia;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>DOG OF THE DAY!!! 🐶✨</h1>
+    <button @click="fetchDog">Click here to reveal the mystery dog</button>
+
+    <div v-if="dogImage">
+      <img :src="dogImage">
+      <h2>Name: Mr. Wigglesworth</h2>
+      <p>Breed: Unknown but fabulous</p>
+      <p>Temperament: Chaotic but cute</p>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          dogImage: null
+        };
+      },
+      methods: {
+        fetchDog() {
+          fetch('https://dog.ceo/api/breeds/image/random')
+            .then(res => res.json())
+            .then(data => {
+              this.dogImage = data.message;
+            });
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
