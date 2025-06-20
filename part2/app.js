@@ -3,7 +3,7 @@ const path = require('path');
 const session = require('express-session');
 require('dotenv').config();
 
-const app = express(); // 一定要先定义 app，再使用 app.use！
+const app = express();
 
 // Middleware
 app.use(express.json());
@@ -23,7 +23,6 @@ const userRoutes = require('./routes/userRoutes');
 app.use('/api/walks', walkRoutes);
 app.use('/api/users', userRoutes);
 
-// ✅ 登录用的 API
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   const mysql = require('mysql2/promise');
@@ -32,7 +31,7 @@ app.post('/api/login', async (req, res) => {
     const pool = mysql.createPool({
       host: 'localhost',
       user: 'root',
-      password: '', // 根据你设置的 MySQL 密码修改
+      password: '',
       database: 'DogWalkService'
     });
 
