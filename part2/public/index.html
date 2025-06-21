@@ -47,17 +47,14 @@
       </table>
     </div>
 
-    <!-- 导航按钮 -->
     <div class="d-flex justify-content-center gap-3 mt-4">
       <a href="/owner-dashboard.html" class="btn btn-outline-primary">Owner Dashboard</a>
       <a href="/walker-dashboard.html" class="btn btn-outline-success">Walker Dashboard</a>
     </div>
   </div>
 
-  <!-- Vue CDN -->
   <script src="https://unpkg.com/vue@3"></script>
 
-  <!-- 狗狗信息加载 Vue 逻辑 -->
   <script>
     const { createApp, ref, onMounted } = Vue;
 
@@ -89,7 +86,6 @@
     }).mount('#dogApp');
   </script>
 
-  <!-- 登录处理脚本 -->
   <script>
     async function handleLogin(event) {
       event.preventDefault();
