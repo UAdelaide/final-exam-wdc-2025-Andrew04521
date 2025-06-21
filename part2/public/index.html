@@ -23,6 +23,30 @@
 
     <button class="btn btn-primary mt-3" type="submit">Log In</button>
   </form>
+  <!-- Dog table component -->
+ <div id="dogApp" class="container mt-5">
+  <h2>Our Dogs</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Dog Name</th>
+        <th>Size</th>
+        <th>Owner</th>
+        <th>Photo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="dog in dogs" :key="dog.dog_id">
+        <td>{{ dog.name }}</td>
+        <td>{{ dog.size }}</td>
+        <td>{{ dog.owner_id }}</td>
+        <td>
+          <img :src="dog.photo" alt="Dog" style="width:100px;">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
